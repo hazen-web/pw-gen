@@ -1,0 +1,15 @@
+{
+  "name": "PW'Gen",
+  "short_name": "PWGen",
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "lock-xxl.png",
+      "type": "image/png", "sizes": "72x72"
+    }
+  ]
+}
