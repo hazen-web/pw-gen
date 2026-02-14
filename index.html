@@ -28,11 +28,24 @@
     </nav>
     <div class="container">
       <div class="input-group input-group-lg my-3">
+        <!-- Inline loader shown inside the input group while fetching -->
         <input type="text" id="combinedData" class="form-control" readonly>
+        <span id="inlineLoader" class="input-group-text d-none align-items-center">
+          <div class="spinner-border spinner-border-sm text-primary" role="status" aria-hidden="true"></div>
+        </span>
         <button id="copyButton" class="btn btn-success"><i class="fas fa-copy"></i></button>
         <button id="rerunButton" class="btn btn-primary"><i class="fas fa-undo"></i></button>
       </div>
       <div class="fw-bold">Estimated time to crack: <span class="text-primary" id="combinedDataCheck"></span></div>
+
+      <!-- Loader overlay (added) -->
+      <div id="loaderOverlay" class="d-none position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center"
+             style="z-index:2000; background: rgba(255,255,255,0.8);">
+        <div class="text-center">
+          <div class="spinner-border text-primary" role="status" aria-hidden="true"></div>
+          <div class="mt-2">Finding random words…</div>
+        </div>
+      </div>
 
       <!-- Toast -->
       <div id="copyToast" class="toast">
@@ -69,6 +82,25 @@
 
   function buildURL() { return `https://random-word-api.herokuapp.com/word?diff=2&length=${getRandom(len)}` };
 
+  // Loader helpers
+  function showLoader() {
+    // show inline loader and indicate loading in the input
+    document.getElementById('inlineLoader').classList.remove('d-none');
+    const input = document.getElementById('combinedData');
+    input.value = '';
+    input.placeholder = 'Finding random words…';
+    document.getElementById('rerunButton').disabled = true;
+    document.getElementById('copyButton').disabled = true;
+  }
+  function hideLoader() {
+    // hide inline loader and restore input placeholder
+    document.getElementById('inlineLoader').classList.add('d-none');
+    const input = document.getElementById('combinedData');
+    input.placeholder = '';
+    document.getElementById('rerunButton').disabled = false;
+    document.getElementById('copyButton').disabled = false;
+  }
+
   async function fetchDataAndCombine() {
     const urls = [
       buildURL(),
@@ -76,6 +108,7 @@
       buildURL()
     ];
 
+    showLoader();
     try {
       const fetchPromises = urls.map(url => fetch(url).then(response => response.json()));
       const results = await Promise.all(fetchPromises);
@@ -90,6 +123,8 @@
       combinedDataCheck.innerHTML = pwresults.crack_times_display.offline_slow_hashing_1e4_per_second;
     } catch (error) {
       console.error('Error fetching data:', error);
+    } finally {
+      hideLoader();
     }
   }
 
@@ -107,5 +142,3 @@
 </script>
 
 </html>
-
-
