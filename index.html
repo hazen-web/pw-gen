@@ -21,6 +21,7 @@
 </head>
 
 <body>
+
   <div class="container-fluid" style="margin-top:100px;">
     <nav id="navbar-example2" class="navbar navbar-light bg-light shadow fixed-top px-2">
       <a class="navbar-brand" href="#"><b>Random Word Password Generator</b></a>
@@ -45,7 +46,7 @@
         style="position: fixed;  right: 0;  bottom: 0;  left: 0;">
         <ul>
           <li><small>Random Word Generation: <a
-                href="https://random-word-api.vercel.app/">https://random-word-api.vercel.app/</a></small></li>
+                href="https://random-word-api.herokuapp.com/word">https://random-word-api.herokuapp.com/word</a></small></li>
           <li><small>Password Strength: <a
                 href="https://dropbox.tech/security/zxcvbn-realistic-password-strength-estimation">zxcvbn</a></small>
           </li>
@@ -66,13 +67,13 @@
     return arr[randomIndex];
   }
 
-  function buildURL(isUpper) { return `https://random-word-api.vercel.app/api?words=1&length=${getRandom(len)}${(isUpper ? `&type=uppercase` : "")}` };
+  function buildURL() { return `https://random-word-api.herokuapp.com/word?length=${getRandom(len)}` };
 
   async function fetchDataAndCombine() {
     const urls = [
-      buildURL(false),
-      buildURL(true),
-      buildURL(false)
+      buildURL(),
+      buildURL(),
+      buildURL()
     ];
 
     try {
@@ -82,7 +83,7 @@
       const combinedData = results?.flat();
 
       const combinedDataInput = document.getElementById('combinedData');
-      let pw = `${combinedData[0]}${getRandom(flatLength)}${combinedData[1]}${getRandom(characters)}${combinedData[2]}`;
+      let pw = `${combinedData[0]}${getRandom(flatLength)}${combinedData[1]?.toUpperCase()}${getRandom(characters)}${combinedData[2]}`;
       combinedDataInput.value = pw;
       const combinedDataCheck = document.getElementById('combinedDataCheck');
       let pwresults = zxcvbn(pw);
