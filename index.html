@@ -59,7 +59,7 @@
         style="position: fixed;  right: 0;  bottom: 0;  left: 0;">
         <ul>
           <li><small>Random Word Generation: <a
-                href="https://random-word-api.herokuapp.com">https://random-word-api.herokuapp.com</a></small></li>
+                href="https://random-words-api.kushcreates.com">https://random-words-api.kushcreates.com</a></small></li>
           <li><small>Password Strength: <a
                 href="https://dropbox.tech/security/zxcvbn-realistic-password-strength-estimation">zxcvbn</a></small>
           </li>
@@ -80,7 +80,7 @@
     return arr[randomIndex];
   }
 
-  function buildURL() { return `https://random-word-api.herokuapp.com/word?diff=2&length=${getRandom(len)}` };
+  function buildURL() { return `https://random-words-api.kushcreates.com/api?words=1&length=${getRandom(len)}&language=en&type=lowercase` };
 
   // Loader helpers
   function showLoader() {
@@ -116,7 +116,7 @@
       const combinedData = results?.flat();
 
       const combinedDataInput = document.getElementById('combinedData');
-      let pw = `${combinedData[0]}${getRandom(flatLength)}${combinedData[1]?.toUpperCase()}${getRandom(characters)}${combinedData[2]}`;
+      let pw = `${combinedData[0]?.word}${getRandom(flatLength)}${combinedData[1]?.word?.toUpperCase()}${getRandom(characters)}${combinedData[2]?.word}`;
       combinedDataInput.value = pw;
       const combinedDataCheck = document.getElementById('combinedDataCheck');
       let pwresults = zxcvbn(pw);
