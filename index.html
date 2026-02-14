@@ -67,7 +67,7 @@
     return arr[randomIndex];
   }
 
-  function buildURL() { return `https://random-word-api.herokuapp.com/word?length=${getRandom(len)}` };
+  function buildURL() { return `https://random-word-api.herokuapp.com/word?diff=2&length=${getRandom(len)}` };
 
   async function fetchDataAndCombine() {
     const urls = [
@@ -107,3 +107,4 @@
 </script>
 
 </html>
+
